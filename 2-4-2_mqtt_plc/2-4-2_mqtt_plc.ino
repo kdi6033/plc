@@ -3,14 +3,15 @@
 
 // Update these with values suitable for your network.
 
-//const char* ssid = "i2r"; // 와이파이 AP 이름
-//const char* password = "00000000";  //와이파이 비밀번호
-const char* ssid = "AndroidHotspot7147"; // 와이파이 AP 이름
-const char* password = "01033887147";  //와이파이 비밀번호
+const char* ssid = "i2r"; // 와이파이 AP 이름
+const char* password = "00000000";  //와이파이 비밀번호
+//const char* ssid = "AndroidHotspot7147"; // 와이파이 AP 이름
+//const char* password = "01033887147";  //와이파이 비밀번호
 const char* mqtt_server = "broker.mqtt-dashboard.com"; //브로커 주소
 const char* outTopic = "/kdi6033/inTopic"; // 사용자가 결정해서 기록
 const char* inTopic = "/kdi6033/outTopic"; // 사용자가 결정해서 기록
-const char* clientName = "603333Client";  // 다음 이름이 중복되지 않게 꼭 수정 바람 - 생년월일 추천
+const char* clientName = "/kdi/603333Client";  // 다음 이름이 중복되지 않게 꼭 수정 바람 - 생년월일 추천
+int outPin=0;  // RS485통신 D3 IO0 tx rx 방향 LOW-받기 HIGH-쓰기모드  
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -21,10 +22,11 @@ String inputString = "";         // a String to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 
 void setup() {
+  pinMode(outPin, OUTPUT);
+  digitalWrite(outPin, LOW);
   pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   digitalWrite(BUILTIN_LED, HIGH); 
   Serial.begin(9600);
-  Serial1.begin(9600);
   // reserve 200 bytes for the inputString:
   inputString.reserve(200);
   
@@ -55,24 +57,22 @@ void setup_wifi() {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+  // mqtt로 들어온 값을 RS232 통신 TX로 보냄
+  digitalWrite(outPin, HIGH);
+  delay(50);
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
-    Serial1.print((char)payload[i]);
   }
   Serial.println();
+  delay(20);
+  digitalWrite(outPin, LOW);
 
   /*
   String inString="";
   for (int i = 0; i < length; i++) {
     inString += (char)payload[i];
   }
-  // serial 통신으로 plc에게 데이터 전송
-  delay(10);
-  Serial.println(inString);
-  */
+ */
   //통신이 되고 있음을 led로 표시
   digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
   delay(50);
@@ -111,13 +111,12 @@ void loop() {
 
 void serialEvent() {
   if (stringComplete) {
-    Serial.println(inputString);
+    //Serial.println(inputString);
     for(int i=0;i<inputString.length();i++)  
       msg[i]=inputString.charAt(i);
     msg[inputString.length()]=0;
     CheckMsg();
-    //client.publish(inTopic,msg);
-    client.publish("/kdi6033/inTopic",msg);
+    client.publish(outTopic,msg);  // RS232통신 RX 단자로 들어온 값 mqtt로 송신
     // clear the string:
     inputString = "";
     stringComplete = false;
