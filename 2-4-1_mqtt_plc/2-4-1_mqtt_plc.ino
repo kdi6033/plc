@@ -3,14 +3,14 @@
 
 // Update these with values suitable for your network.
 
-//const char* ssid = "i2r"; // 와이파이 AP 이름
-//const char* password = "00000000";  //와이파이 비밀번호
-const char* ssid = "AndroidHotspot7147"; // 와이파이 AP 이름
-const char* password = "01033887147";  //와이파이 비밀번호
+const char* ssid = "i2r"; // 와이파이 AP 이름
+const char* password = "00000000";  //와이파이 비밀번호
+//const char* ssid = "AndroidHotspot7147"; // 와이파이 AP 이름
+//const char* password = "01033887147";  //와이파이 비밀번호
 const char* mqtt_server = "broker.mqtt-dashboard.com"; //브로커 주소
 const char* outTopic = "/kdi6033/inTopic"; // 사용자가 결정해서 기록
 const char* inTopic = "/kdi6033/outTopic"; // 사용자가 결정해서 기록
-const char* clientName = "603333Client";  // 다음 이름이 중복되지 않게 꼭 수정 바람 - 생년월일 추천
+const char* clientName = "603783Client";  // 다음 이름이 중복되지 않게 꼭 수정 바람 - 생년월일 추천
 
 WiFiClient espClient;
 PubSubClient client(espClient);
