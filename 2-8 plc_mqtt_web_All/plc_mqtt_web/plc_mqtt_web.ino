@@ -252,6 +252,7 @@ void SendText() {
       s +=char(4);
       returnDelay=20;
     }
+    // 입력포트의 값을 읽어온다.
     else {
       s = "\0";
       s +=char(5);
