@@ -38,7 +38,7 @@ void serialEvent() {
     stringComplete = false;
   }
   
-  if(Serial.available() == false)
+  if(Serial.available() == false) 
     return;
   while (Serial.available()) {
     // get the new byte:
