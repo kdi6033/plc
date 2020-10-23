@@ -1,4 +1,4 @@
-//참조프로그램 : https://youtu.be/Ule_wKCxJZc
+// plc에서 html 작성 참조 : https://youtu.be/Ule_wKCxJZc
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>

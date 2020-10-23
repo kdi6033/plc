@@ -16,12 +16,10 @@ bool toggle_led(void *) {
   Serial.println(" ");
   Serial.println(s1); 
   Serial1.print(s1);
-  digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN)); // toggle the LED
   return true; // repeat? true
 }
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT); // set LED pin to OUTPUT
   // call the toggle_led function every 1000 millis (1 second)
   timer.every(1000, toggle_led);
   
