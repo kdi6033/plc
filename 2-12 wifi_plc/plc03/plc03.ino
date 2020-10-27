@@ -11,7 +11,6 @@ ESP8266WebServer server(80);
 String s;
 //int LED = LED_BUILTIN;// 사용하지 마세요 serial1 통신과 충돌합니다.
 int p4[4]={0};
-//int ledOn=0,p4[4]={0};
 
 
 void setup() {
@@ -30,7 +29,7 @@ void setup() {
   //WiFiManager
   WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP
   WiFiManager wm;
-  // wm.resetSettings(); //reset settings - for testing
+  //wm.resetSettings(); //reset settings - for testing
 
   if (!wm.autoConnect(cChipId)) {
     Serial.println("failed to connect and hit timeout");
