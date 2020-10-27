@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <script>
+            function realtime() {
+            var rtClock = new Date();
+            var second = rtClock.getSeconds();
+            document.getElementById('clock').innerHTML = "<button>"+second+"</button>";
+            var t = setTimeout(realtime, 1000);
+}
+        </script>
+    </head>
+    <body onload="realtime()">
+        <div id="clock"></div>
+        <form><input type="button" value="페이지 새로 고침" onClick="window.location.reload()"></form>
+    </body>
+</html>
