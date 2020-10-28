@@ -12,20 +12,31 @@ char cChipId[40]="";
 ESP8266WebServer server(80);
 
 String inputString = "";         // 받은 문자열
-String s;
+int sendText=0,error=0,count=0,countR=0;
 //int LED = LED_BUILTIN;// 사용하지 마세요 serial1 통신과 충돌합니다.
 int p4[8]={0},p0[10]={0},monit=0;
 
-
 bool toggle_led(void *) {
   if(monit==1) {
-    s = "\0";
+    String s = "\0";
     s +=char(5);
     s += "00RSS0104%PW0";
     s +=char(4);
     Serial.println(" ");
     Serial.println(s); 
     Serial1.print(s);
+  }
+  count++;
+  if(count>3 && sendText==1) { //출력 에러체크
+    error=1;
+    count=0;
+  }
+  if(monit==1) { //모니터 에러체크
+    if(countR>3)  //입력 에러체크
+      error=1;
+    else if (countR<3)
+      error=0;
+    countR++;
   }
   return true; 
 }
@@ -114,10 +125,25 @@ void serialEvent() {
       inputString="";
     inputString += inChar;
     if(inChar==0x03) {
-      s="";
+      String s="";
       s=inputString.substring(12, 14);
       s=HexToBin(s);
       DisplayPlc(s);
+      countR=0;
+      checkReturn(inputString); //출력 메세지 에러체크
     }
+  }
+}
+
+bool checkReturn(String sI) {
+  String s="";
+  s=sI.substring(3, 6);
+  if(sendText==1) {
+    if( s.equals("WSS")) {
+      error=0;
+      sendText=0;
+    }
+    else
+      error=1;
   }
 }
