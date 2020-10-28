@@ -27,14 +27,14 @@ bool toggle_led(void *) {
     Serial1.print(s);
   }
   count++;
-  if(count>3 && sendText==1) { //출력 에러체크
+  if(count>2 && sendText==1) { //출력 에러체크
     error=1;
     count=0;
   }
   if(monit==1) { //모니터 에러체크
-    if(countR>3)  //입력 에러체크
+    if(countR>2)  //입력 에러체크
       error=1;
-    else if (countR<3)
+    else if (countR<2)
       error=0;
     countR++;
   }
