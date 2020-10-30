@@ -42,6 +42,9 @@ void handleRoot() {
   else 
     sm+="<button class='button button-ledoff' ></button></a>"; 
 
+  sm+="&emsp;P4의 모니터링 : ";
+  sm+=sP4;
+
   sm+="<br><br>AP & IP :&emsp;"+sChipId+"&emsp;"+WiFi.localIP().toString();
   if(monit==1)
     server.send(200, "text/html", webHeadM+s+sm+webTail);

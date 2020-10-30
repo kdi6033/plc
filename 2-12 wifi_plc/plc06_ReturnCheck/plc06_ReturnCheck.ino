@@ -15,28 +15,23 @@ String inputString = "";         // 받은 문자열
 int sendText=0,error=0,count=0,countR=0;
 //int LED = LED_BUILTIN;// 사용하지 마세요 serial1 통신과 충돌합니다.
 int p4[8]={0},p0[10]={0},monit=0;
+//int p4r[4]={0}; //보드출력상태를 모니터링한 값
+String sP4="";//보드출력상태를 모니터링한 값
 
 bool toggle_led(void *) {
+  //Serial.println(count);
   if(monit==1) {
     String s = "\0";
     s +=char(5);
-    s += "00RSS0104%PW0";
+    //s += "00RSS0104%PW0";
+    s += "00RSS0204%PW004%PW4";
     s +=char(4);
     Serial.println(" ");
     Serial.println(s); 
     Serial1.print(s);
-  }
-  count++;
-  if(count>2 && sendText==1) { //출력 에러체크
-    error=1;
-    count=0;
-  }
-  if(monit==1) { //모니터 에러체크
-    if(countR>2)  //입력 에러체크
+    count++;
+    if(count>1) //출력 에러체크
       error=1;
-    else if (countR<2)
-      error=0;
-    countR++;
   }
   return true; 
 }
@@ -80,19 +75,7 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server started");
-  DisplayPlc("00");
-}
-
-void DisplayPlc(String s) {
-  if(s.length()<=0)
-    return;
-  int i,j;
-  j=0;
-  for(i=0;i<8;i++) //초기화
-    p0[i]=0;
-  for(i=s.length()-1;i>=0;i--)
-    p0[j++]=s.charAt(i)-0x30;
-  GoHome();
+  DisplayP0("00");
 }
 
 // string hex를 string bin으로 전환
@@ -125,25 +108,49 @@ void serialEvent() {
       inputString="";
     inputString += inChar;
     if(inChar==0x03) {
-      String s="";
-      s=inputString.substring(12, 14);
-      s=HexToBin(s);
-      DisplayPlc(s);
-      countR=0;
-      checkReturn(inputString); //출력 메세지 에러체크
+      error=0;
+      count=0;
+      displayPLC(inputString);
     }
   }
 }
 
-bool checkReturn(String sI) {
+void displayPLC(String sI) {
   String s="";
   s=sI.substring(3, 6);
-  if(sendText==1) {
-    if( s.equals("WSS")) {
-      error=0;
-      sendText=0;
-    }
-    else
-      error=1;
+  if( s.equals("RSS")) {      
+    s=sI.substring(12, 14);
+    DisplayP0(HexToBin(s));
+    s=sI.substring(19, 20);
+    DisplayP4(HexToBin(s));
   }
+  GoHome();
+}
+
+void DisplayP4(String s) {
+  int p4r[4]={0};
+  if(s.length()<=0)
+    return;
+  int i,j;
+  j=0;
+  for(i=0;i<4;i++) //초기화
+    p4r[i]=0;
+  sP4="";
+  for(i=s.length()-1;i>=0;i--) {
+    sP4+=s.charAt(i);
+    p4r[j++]=s.charAt(i)-0x30;
+  }
+  for(i=s.length();i<4;i++)
+    sP4+="0";
+}
+
+void DisplayP0(String s) {
+  if(s.length()<=0)
+    return;
+  int i,j;
+  j=0;
+  for(i=0;i<8;i++) //초기화
+    p0[i]=0;
+  for(i=s.length()-1;i>=0;i--)
+    p0[j++]=s.charAt(i)-0x30;
 }
