@@ -8,18 +8,22 @@ String webHeadM="<html> <head> <meta http-equiv='refresh' content='2'/> <meta na
 void handleRoot() {
   String s=""; 
 
-  s+="<form action='/on'>출력";
+  s+="<br>출력<table style='width:100%'>";
   for(int i=0;i<4;i++) {
+    s+="<tr>";
+    s+="<form action='/on'>";
+    s+="<input type='hidden' name='act' value='"+(String)i+"'>";
     if(p4[i]==1) 
-      s+="<button type='submit' name='button' value='"+(String)i+"' class='button button-on' >4"+(String)i+"</button></a>"; //off
+      s+="<button type='submit' name='value' value='0' class='button button-on' >4"+(String)i+"</button></a>"; //off
     else 
-      s+="<button type='submit' name='button' value='"+(String)i+"' class='button button-off' >4"+(String)i+"</button></a>"; //on
+      s+="<button type='submit' name='value' value='1' class='button button-off' >4"+(String)i+"</button></a>"; //on
+    s+="</form>";
+    s+="</tr>";
   }
-  s+="</form>";
 
   String sm="";
   //sm+="<div style='background-color:LightSalmon;width: 300px;'>";
-  sm+="입력";
+  sm+="<br>입력";
   for(int i=0;i<8;i++) {
     //Serial.println(p0[i]);
     if(p0[i]==1) 
@@ -29,14 +33,15 @@ void handleRoot() {
   }
   //sm+="</div>";
 
-  sm+="<br><form action='/monit'>모니터링";
+  sm+="<br><form action='/on'>모니터링";
+  sm+="<input type='hidden' name='act' value='4'>";
   if(monit==1) 
-    sm+="<button type='submit' class='button button-on' >on</button></a>"; //off
+    sm+="<button type='submit' name='value' value='0' class='button button-on' >on</button></a>"; //off
   else 
-    sm+="<button type='submit' class='button button-off' >off</button></a>"; //on
+    sm+="<button type='submit' name='value' value='1' class='button button-off' >off</button></a>"; //on
   sm+="</form>";
 
-  sm+="통신에러";
+  sm+="<br>통신에러";
   if(error==1) 
     sm+="<button class='button button-ledon' ></button></a>";
   else 
@@ -69,12 +74,21 @@ void handleMonit() {
 
 void handleOn() {
   String s="";
-  int no=server.arg("button").toInt();
+  //int no=server.arg("button").toInt();
+  int act=server.arg("act").toInt();
+  int value=server.arg("value").toInt();
+
+  Serial.println("~~~~~~~~~~~~~~~~~~~");
+  Serial.println(act);
+  Serial.println(value);
+  /*
   if(p4[no]==1)
     p4[no]=0;
   else
     p4[no]=1;
-  if(no<4) {
+  */
+  if(act<4) {
+    p4[act]=value;
     int out=p4[0]+p4[1]*2+p4[2]*4+p4[3]*8;
     s = "\0";
     s +=char(5);
@@ -86,6 +100,9 @@ void handleOn() {
     Serial1.print(s);
     sendText=1;
     error=0;
+  }
+  else if(act==4) {
+    monit=value;
   }
   GoHome();
 }
