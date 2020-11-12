@@ -45,7 +45,7 @@ void setup() {
   Serial.begin(19200);
   WiFiManager wm;
   // 사용하는 AP에 따라 수정
-  wm.setSTAStaticIPConfig(IPAddress(192,168,0,200), IPAddress(192,168,0,1), IPAddress(255,255,255,0));  // set static ip,gw,sn
+  //wm.setSTAStaticIPConfig(IPAddress(192,168,0,200), IPAddress(192,168,0,1), IPAddress(255,255,255,0));  // set static ip,gw,sn
   //wm.setSTAStaticIPConfig(IPAddress(172,30,1,200), IPAddress(172,30,1,254), IPAddress(255,255,255,0));  // set static ip,gw,sn
  
   // AP 이름 자동으로 만듬 i2r-chipid
@@ -67,7 +67,7 @@ void setup() {
   server.on("/on", handleOn);
   server.on("/monit", handleMonit);
   server.on("/menu", handleMenu);
-  server.on("/scan", handleScan);
+  //server.on("/scan", handleScan);
   server.onNotFound(handleNotFound);
   
   server.begin();
@@ -129,7 +129,7 @@ void wifiScanOne(int ipScan) {
 
 void wifiScan() {
   countScaned=0;
-  for(int i=38;i<44;i++) {
+  for(int i=2;i<50;i++) {
     digitalWrite(ledPin, i%2);
     wifiScanOne(i);
   }  

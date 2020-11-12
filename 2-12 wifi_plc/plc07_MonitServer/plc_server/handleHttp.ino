@@ -161,9 +161,9 @@ void handleNotFound() {
 }
 
 void handleScan() {
-  wifiScan();
+  //wifiScan();
   GoHome();
-  //String s;
-  //s="{\"chipId\":\""+sChipId+"\",\"ip\":\""+WiFi.localIP().toString()+"\"}";
-  //server.send(200, "text/plain", s);
+  String s;
+  s="{\"chipId\":\""+sChipId+"\",\"ip\":\""+WiFi.localIP().toString()+"\", server}";
+  server.send(200, "text/plain", s);
 }
