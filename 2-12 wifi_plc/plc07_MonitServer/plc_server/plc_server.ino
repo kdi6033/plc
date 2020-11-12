@@ -67,7 +67,7 @@ void setup() {
   server.on("/on", handleOn);
   server.on("/monit", handleMonit);
   server.on("/menu", handleMenu);
-  //server.on("/scan", handleScan);
+  server.on("/scanwifi", handleScan);
   server.onNotFound(handleNotFound);
   
   server.begin();
