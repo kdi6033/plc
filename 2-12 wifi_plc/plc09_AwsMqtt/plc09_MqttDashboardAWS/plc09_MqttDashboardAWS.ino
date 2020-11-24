@@ -45,6 +45,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   root = doc.as<JsonObject>();
   const char* sChipidin = root["chipid"];
   if( sChipId.equals(sChipidin)) {
+    monit=root["monit"];
     DisplayP4(HexToBin(root["p4"]));
     sendTextToPlc();
   }
