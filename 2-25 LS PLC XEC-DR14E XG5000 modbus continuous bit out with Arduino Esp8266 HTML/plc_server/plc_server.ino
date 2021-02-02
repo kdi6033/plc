@@ -48,6 +48,7 @@ void setup() {
   sChipId.toCharArray(cChipId,sChipId.length()+1);
   Serial.println(sChipId);
 
+  //wifi manager 참조유튜브  https://youtu.be/mJFd7g4jedw  //https://youtu.be/EzEG_2HcOQo
   //reset settings - wipe credentials for testing
   //wm.resetSettings();
   if (!wm.autoConnect(cChipId)) {
@@ -80,7 +81,7 @@ void sendTextToPlc() {
 }
 
 void crd16Rtu() {
-  char str[24] =  {0x00,0x0f,0x00,0x00,0x00,0x0a,0x02,0xff,0x00,0x00,0x00};  //[1,15,0,0,0,10,2,255,0,0,0]
+  char str[24] =  {0x00,0x0f,0x00,0x00,0x00,0x0a,0x02,0xff,0x00,0x00,0x00};  //[0,15,0,0,0,10,2,255,0,0,0]
   //char str[24] =  {0x00,0x03,0x00,0xc8,0x00,0x02};
   String s;
   int si,sj,len;
