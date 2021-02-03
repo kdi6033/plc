@@ -1,3 +1,6 @@
+// 다음 메뉴얼 참조하세요.
+// LS산전 사용설명서_XGB Cnet_V1.8.pdf 9-14 페이지 비트연속출력으로 프로그램 
+// crc16 rtu를 사용하기 위해 다음 라이브러리 설치하세요.
 // crc16 modbus
 //  https://github.com/RobTillaart/CRC
 //  AUTHOR: Rob Tillaart
@@ -75,11 +78,7 @@ void loop() {
   server.handleClient();
 }
 
-void sendTextToPlc() {
-  String s="";
-  crd16Rtu();
-}
-
+// 아두이노에서 RS485 출력을 내보낸다.
 void crd16Rtu() {
   char str[24] =  {0x00,0x0f,0x00,0x00,0x00,0x0a,0x02,0xff,0x00,0x00,0x00};  //[0,15,0,0,0,10,2,255,0,0,0]
   //char str[24] =  {0x00,0x03,0x00,0xc8,0x00,0x02};
@@ -90,8 +89,6 @@ void crd16Rtu() {
   str[7]=Out[0]+Out[1]*2+Out[2]*4+Out[3]*8+Out[4]*16+Out[5]*32;
   
   uint8_t * data = (uint8_t *) &str[0];
-  Serial.println("Verified with - https://crccalc.com/\n");
-  Serial.println(crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  ), HEX);
   si=crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  );
   sj=si&0xff;
   str[len]=sj;
@@ -101,6 +98,8 @@ void crd16Rtu() {
   for(int i=0;i<len+2;i++)
     Serial1.print(str[i]);
 
+  //Serial.println("Verified with - https://crccalc.com/\n");
+  //Serial.println(crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  ), HEX);
   //s=String(crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  ), HEX);
   //Serial.println(s);
 }
