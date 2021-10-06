@@ -1,0 +1,666 @@
+[
+    {
+        "id": "6e1b7177bd2b9adb",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 2,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q00",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q00",
+        "x": 570,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c6fc08f99d5c22b2",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "디코드",
+        "func": "//var dec = msg.payload.charAt(13);\nvar dec=msg.payload[3];\nvar bin = parseInt(dec).toString(2);\nbin=\"00000000\"+bin;\nbin = bin.slice(-8);\nmsg.payload=bin;\n\n//dec = msg.payload.charAt(12);\n//var bin1 = parseInt(dec).toString(2);\n//bin1=\"0000\"+bin1;\n//bin1 = bin1.slice(-4);\n\n//msg.payload=bin1+bin;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 228.9374885559082,
+        "y": 293.10755443573,
+        "wires": [
+            [
+                "caf1ef52cd963f85"
+            ]
+        ]
+    },
+    {
+        "id": "caf1ef52cd963f85",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "var out=[];\nout.push({payload:msg.payload.charAt(7)});\nout.push({payload:msg.payload.charAt(6)});\nout.push({payload:msg.payload.charAt(5)});\nout.push({payload:msg.payload.charAt(4)});\nout.push({payload:msg.payload.charAt(3)});\nout.push({payload:msg.payload.charAt(2)});\nout.push({payload:msg.payload.charAt(1)});\nout.push({payload:msg.payload.charAt(0)});\nreturn [out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7]];\n",
+        "outputs": 8,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 371.9930877685547,
+        "y": 293.96174812316895,
+        "wires": [
+            [
+                "6e1b7177bd2b9adb"
+            ],
+            [
+                "2c4e5e85a7296bd5"
+            ],
+            [
+                "a12852caeb9f2c15"
+            ],
+            [
+                "6a88d35d43f1bc8e"
+            ],
+            [
+                "c05b58979394d6eb"
+            ],
+            [
+                "848be5924e24495e"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "2c4e5e85a7296bd5",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 3,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q01",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q01",
+        "x": 571.9375343322754,
+        "y": 222.10753631591797,
+        "wires": []
+    },
+    {
+        "id": "a12852caeb9f2c15",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 4,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q02",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q02",
+        "x": 571.9375343322754,
+        "y": 262.10753631591797,
+        "wires": []
+    },
+    {
+        "id": "6a88d35d43f1bc8e",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 5,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q03",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q03",
+        "x": 571.9375343322754,
+        "y": 301.1075668334961,
+        "wires": []
+    },
+    {
+        "id": "c05b58979394d6eb",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 6,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q04",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q04",
+        "x": 574.9375343322754,
+        "y": 340.1075668334961,
+        "wires": []
+    },
+    {
+        "id": "848be5924e24495e",
+        "type": "ui_led",
+        "z": "0cbe32a84bfc5a9c",
+        "order": 7,
+        "group": "7ac6f0a21739dc93",
+        "width": "2",
+        "height": "1",
+        "label": "q05",
+        "colorForValue": [
+            {
+                "color": "#808080",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "q05",
+        "x": 573.9375343322754,
+        "y": 385.1075668334961,
+        "wires": []
+    },
+    {
+        "id": "5b98e27de8a8b15f",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "읽기",
+        "func": "\nvar auto = global.get('auto') || 0;\nif(auto !=0) {\n    buf=[1,2,0,0,0,8,0,0];\n    msg.payload=buf;\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 100,
+        "wires": [
+            [
+                "82ba0e00d5551bb5"
+            ]
+        ]
+    },
+    {
+        "id": "82ba0e00d5551bb5",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "modbus cal",
+        "func": "var auchCRCHi = [\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40\n      ];\n\n      /* Table of CRC values for low-order byte */\n    var auchCRCLo = [\n        0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06,\n        0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,\n        0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,\n        0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A,\n        0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4,\n        0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,\n        0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3,\n        0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4,\n        0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,\n        0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29,\n        0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED,\n        0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,\n        0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60,\n        0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67,\n        0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,\n        0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68,\n        0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E,\n        0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,\n        0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71,\n        0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92,\n        0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,\n        0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B,\n        0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B,\n        0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,\n        0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42,\n        0x43, 0x83, 0x41, 0x81, 0x80, 0x40\n      ];\n\n//var data=Buffer.from([1,15,0,0,0,10,2,255,0,0,0]);\nvar data=Buffer.from(msg.payload);\nvar nTemp;\nvar wCRCWord = 0xFFFF;\n//data=msg.payload;\nvar len=data.length-2;\nvar crc = [0xFF, 0xFF];\n    var nextByte = 0;\n    var uIndex; /* will index into CRC lookup*/ /* table */\n    /* pass through message buffer */\n    for (var i = 0; i < len && i < data.length; i++) {\n      nextByte = 0xFF & (data[i]);\n      uIndex = crc[0] ^ nextByte; //*puchMsg++; /* calculate the CRC */\n      crc[0] = crc[1] ^ auchCRCHi[uIndex];\n      crc[1] = auchCRCLo[uIndex];\n    }\n\ndata[len]=crc[0];\ndata[len+1]=crc[1];\nmsg.payload= data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 518.0000152587891,
+        "y": 98.99998664855957,
+        "wires": [
+            [
+                "dfb5a99c740dc9d5"
+            ]
+        ]
+    },
+    {
+        "id": "d693e9f385880233",
+        "type": "inject",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 100,
+        "wires": [
+            [
+                "5b98e27de8a8b15f"
+            ]
+        ]
+    },
+    {
+        "id": "dfb5a99c740dc9d5",
+        "type": "serial request",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "serial": "63957752.49a888",
+        "x": 670,
+        "y": 100,
+        "wires": [
+            [
+                "c6fc08f99d5c22b2"
+            ]
+        ]
+    },
+    {
+        "id": "dd41b6823f696976",
+        "type": "comment",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "참조메뉴얼",
+        "info": "LS산전 \"사용설명서_XGB Cnet_V1.8.pdf\"\n9-8 페이지\n9.4.2 비트 입력영역에 비트형식의 데이터 읽기(02) ",
+        "x": 200,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1059c51b00e97ec6",
+        "type": "comment",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "잠조유튜브",
+        "info": "https://youtu.be/yR153KZJVno",
+        "x": 200,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "53d16f2e2071927d",
+        "type": "ui_switch",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "label": "모니터링",
+        "tooltip": "",
+        "group": "7ac6f0a21739dc93",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "x": 380,
+        "y": 40,
+        "wires": [
+            [
+                "8194346f589cc3fa"
+            ]
+        ]
+    },
+    {
+        "id": "8194346f589cc3fa",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "global.set(\"auto\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3fee145403ca2c09",
+        "type": "ui_switch",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "label": "i00",
+        "tooltip": "",
+        "group": "7ac6f0a21739dc93",
+        "order": 10,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "x": 190,
+        "y": 460,
+        "wires": [
+            [
+                "6cf6d03862a54078"
+            ]
+        ]
+    },
+    {
+        "id": "1e294f38faafa137",
+        "type": "ui_switch",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "label": "i01",
+        "tooltip": "",
+        "group": "7ac6f0a21739dc93",
+        "order": 11,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "x": 189.99999237060547,
+        "y": 513.000020980835,
+        "wires": [
+            [
+                "af922104fb1d9885"
+            ]
+        ]
+    },
+    {
+        "id": "6a0ec12b74bea4ca",
+        "type": "ui_switch",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "label": "i02",
+        "tooltip": "",
+        "group": "7ac6f0a21739dc93",
+        "order": 12,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 187.99999237060547,
+        "y": 573.000020980835,
+        "wires": [
+            [
+                "caa1081d82ddb6f4"
+            ]
+        ]
+    },
+    {
+        "id": "6e544da2a2945871",
+        "type": "ui_switch",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "label": "i03",
+        "tooltip": "",
+        "group": "7ac6f0a21739dc93",
+        "order": 13,
+        "width": "2",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 186.99999237060547,
+        "y": 624.000020980835,
+        "wires": [
+            [
+                "d5d853b24ca893f9"
+            ]
+        ]
+    },
+    {
+        "id": "6cf6d03862a54078",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "global.set(\"i00\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 332.98038482666016,
+        "y": 460.99610805511475,
+        "wires": [
+            [
+                "23bcc4a0ed322a3b"
+            ]
+        ]
+    },
+    {
+        "id": "af922104fb1d9885",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "global.set(\"i01\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 331.98038482666016,
+        "y": 513.9961080551147,
+        "wires": [
+            [
+                "23bcc4a0ed322a3b"
+            ]
+        ]
+    },
+    {
+        "id": "caa1081d82ddb6f4",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "global.set(\"i02\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 333.98038482666016,
+        "y": 572.9961080551147,
+        "wires": [
+            [
+                "23bcc4a0ed322a3b"
+            ]
+        ]
+    },
+    {
+        "id": "d5d853b24ca893f9",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "func": "global.set(\"i03\",msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 336.06591033935547,
+        "y": 623.4826946258545,
+        "wires": [
+            [
+                "23bcc4a0ed322a3b"
+            ]
+        ]
+    },
+    {
+        "id": "23bcc4a0ed322a3b",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "쓰기",
+        "func": "var i00=global.get(\"i00\")||0;\nvar i01=global.get(\"i01\")||0;\nvar i02=global.get(\"i02\")||0;\nvar i03=global.get(\"i03\")||0;\nvar buf = Buffer.alloc(11);\nbuf=[1,15,0,64,0,10,2,255,0,0,0];\nbuf[7]=i00*1+i01*2+i02*4+i03*8;\n\nmsg.payload=buf;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 501.99998474121094,
+        "y": 461.00001335144043,
+        "wires": [
+            [
+                "8f15da0feaf3804c"
+            ]
+        ]
+    },
+    {
+        "id": "a6458f925124e27f",
+        "type": "serial out",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "",
+        "serial": "63957752.49a888",
+        "x": 810,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "8f15da0feaf3804c",
+        "type": "function",
+        "z": "0cbe32a84bfc5a9c",
+        "name": "modbus cal",
+        "func": "var auchCRCHi = [\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40\n      ];\n\n      /* Table of CRC values for low-order byte */\n    var auchCRCLo = [\n        0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06,\n        0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,\n        0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,\n        0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A,\n        0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4,\n        0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,\n        0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3,\n        0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4,\n        0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,\n        0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29,\n        0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED,\n        0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,\n        0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60,\n        0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67,\n        0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,\n        0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68,\n        0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E,\n        0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,\n        0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71,\n        0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92,\n        0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,\n        0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B,\n        0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B,\n        0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,\n        0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42,\n        0x43, 0x83, 0x41, 0x81, 0x80, 0x40\n      ];\n\n//var data=Buffer.from([1,15,0,0,0,10,2,255,0,0,0]);\nvar data=Buffer.from(msg.payload);\nvar nTemp;\nvar wCRCWord = 0xFFFF;\n//data=msg.payload;\nvar len=data.length-2;\nvar crc = [0xFF, 0xFF];\n    var nextByte = 0;\n    var uIndex; /* will index into CRC lookup*/ /* table */\n    /* pass through message buffer */\n    for (var i = 0; i < len && i < data.length; i++) {\n      nextByte = 0xFF & (data[i]);\n      uIndex = crc[0] ^ nextByte; //*puchMsg++; /* calculate the CRC */\n      crc[0] = crc[1] ^ auchCRCHi[uIndex];\n      crc[1] = auchCRCLo[uIndex];\n    }\n\ndata[len]=crc[0];\ndata[len+1]=crc[1];\nmsg.payload= data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 650,
+        "y": 460,
+        "wires": [
+            [
+                "a6458f925124e27f"
+            ]
+        ]
+    },
+    {
+        "id": "7ac6f0a21739dc93",
+        "type": "ui_group",
+        "name": "LS산전 PLC",
+        "tab": "97d176029c50b84f",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "63957752.49a888",
+        "type": "serial-port",
+        "serialport": "COM6",
+        "serialbaud": "19200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "100",
+        "bin": "bin",
+        "out": "time",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "97d176029c50b84f",
+        "type": "ui_tab",
+        "name": "입출력 모니터",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
