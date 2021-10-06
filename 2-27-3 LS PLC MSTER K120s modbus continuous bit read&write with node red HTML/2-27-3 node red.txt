@@ -1,0 +1,353 @@
+[
+    {
+        "id": "b8ef731462eb3aac",
+        "type": "template",
+        "z": "7cebe1323521596f",
+        "name": "style",
+        "field": "payload.style",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "body {\n    background: #eab0dc;\n    font-family: \"Lato\", sans-serif;\n}\n.button {\n    border: none;\n    border-color:black;\n    color: white;\n    padding: 20px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 4px 2px;\n    cursor: pointer;\n}\n.buttonMenu {\n    padding: 5px 24px;\n    margin-left:20%;\n    background-color:black;\n    border: none;\n    border-color:black;\n    color:white;\n    text-align: left;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 16px;\n    margin: 4px 2px;\n    cursor: pointer;\n}\n.sidenav {\n    height: 100%;\n    width: 0;\n    position: fixed;\n    z-index: 1;\n    top: 0;\n    left: 0;\n    background-color: #111;\n    overflow-x: hidden;\n    transition: 0.5s;\n    padding-top: 60px;\n}\n.sidenav a {\n    padding: 8px 8px 8px 32px;\n    text-decoration: none;\n    font-size: 18px;\n    color: #818181;\n    display: block;\n    transition: 0.3s;\n}\n.sidenav a:hover {\n    color: #f1f1f1;\n}\n\n.sidenav .closebtn {\n    position: absolute;\n    top: 0;\n    right: 25px;\n    font-size: 36px;\n    margin-left: 50px;\n}\n\n.button-on {border-radius: 100%; background-color: #4CAF50;}\n.button-off {border-radius: 100%;background-color: #707070;}\n.button-ledon {border-radius: 100%; padding: 10px; font-size: 8px; margin: 0px 0px; background-color: #ff4500;}\n.button-ledoff {border-radius: 100%; padding: 10px; font-size: 8px; background-color: #707070;}",
+        "output": "str",
+        "x": 330,
+        "y": 180,
+        "wires": [
+            [
+                "a5a2a89b2880760d"
+            ]
+        ]
+    },
+    {
+        "id": "64932616a8af4e32",
+        "type": "http in",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "url": "/main",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "b8ef731462eb3aac"
+            ]
+        ]
+    },
+    {
+        "id": "9dc88b847f33feda",
+        "type": "http response",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7a4529daec00f680",
+        "type": "template",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n{{{payload.h}}}\n<style> {{{payload.style}}} </style>\n</head>\n<body>\n<h3 style='color:SteelBlue;'>&emsp;김동일유튜브 <a href='http://i2r.link' style='color:SteelBlue;'>http://i2r.link</a> </h3>\n<h3 style='color:SteelBlue;'>&emsp;4차산업혁명의 시작 -> 센서와 엑튜에이터를 크라우드컴퓨터 빅데이터에 연결</h3>\n{{{payload.t}}} \n</body>\n</html>",
+        "output": "str",
+        "x": 600,
+        "y": 180,
+        "wires": [
+            [
+                "9dc88b847f33feda"
+            ]
+        ]
+    },
+    {
+        "id": "a5a2a89b2880760d",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "html 작성",
+        "func": "global.set(\"style\",msg.payload.style);\nvar In = global.get('In') || \"\";\nvar out = global.get('out') || [0,0,0,0,0,0];\nvar monit = global.get('monit') || '0';\nvar s=\"\";\nvar i=0;\n\ns+=\"모니터링 \";\ns+=\"<form action='/on'>\";\ns+=\"<input type='hidden' name='act' value='1'>\";\ns+=\"<input type='hidden' name='no' value='0'>\";\nif(monit=='1') \n    s+=\"<th><button type='submit' name='value' value='0' class='button button-on' ></button></a></th>\";\nelse\n    s+=\"<th><button type='submit' name='value' value='1' class='button button-off' ></button></a></th>\";    \ns+=\"</form>\";\n\n\ns+=\"입력<br>\";\ns+=\"<table>\";\ns+=\"<tr>\";\ns+=\"<th>q00</th>\";\ns+=\"<th>q01</th>\";\ns+=\"<th>q02</th>\";\ns+=\"<th>q03</th>\";\ns+=\"<th>q04</th>\";\ns+=\"<th>q05</th>\";\ns+=\"<th>q06</th>\";\ns+=\"<th>q07</th>\";\ns+=\"</tr>\";\ns+=\"<tr>\";\nfor(i=0;i<8;i++) {\nif(In.charAt(7-i)=='1') \n    s+=\"<th><button type='submit' name='value' value='0' class='button button-ledon' ></button></a></th>\";\nelse\n    s+=\"<th><button type='submit' name='value' value='1' class='button button-ledoff' ></button></a></th>\";    \n}\ns+=\"</tr>\";\ns+=\"</table>\";\n\ns+=\"출력<br>\";\ns+=\"<table>\";\ns+=\"<tr>\";\ns+=\"<th>i00</th>\";\ns+=\"<th>i01</th>\";\ns+=\"<th>i02</th>\";\ns+=\"<th>i03</th>\";\ns+=\"<th>i04</th>\";\ns+=\"<th>i05</th>\";\ns+=\"</tr>\";\ns+=\"<tr>\";\nfor(i=0;i<6;i++) {\ns+=\"<form action='/on'>\";\ns+=\"<input type='hidden' name='act' value='0'>\";\ns+=\"<input type='hidden' name='no' value='\"+i.toString()+\"'>\";\nif(out[i]=='1') \n    s+=\"<th><button type='submit' name='value' value='0' class='button button-on' ></button></a></th>\";\nelse\n    s+=\"<th><button type='submit' name='value' value='1' class='button button-off' ></button></a></th>\";    \ns+=\"</form>\";\n}\ns+=\"</tr>\";\ns+=\"</table>\";\n\nmsg.payload.t=s;\nif(monit=='1')\n    msg.payload.h=\"<meta http-equiv='refresh' content='3; url='http://117.16.176.76:1880/main' method='get'>\";\nelse\n    msg.payload.h=\"\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 180,
+        "wires": [
+            [
+                "7a4529daec00f680"
+            ]
+        ]
+    },
+    {
+        "id": "bcd20a98ec98495f",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "디코드",
+        "func": "var dec=msg.payload[3];\nvar bin = parseInt(dec).toString(2);\nbin=\"00000000\"+bin;\nbin = bin.slice(-8);\nglobal.set(\"In\",bin);\nmsg.payload=bin;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 833,
+        "y": 115,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b7a129b0248dcf1",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "입력포트 읽기",
+        "func": "var monit = global.get('monit') || '0';\n\nif(monit != '0') {\n    buf=[1,2,0,0,0,8,0,0];\n    msg.payload=buf;\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 115,
+        "wires": [
+            [
+                "930c70e396e0398c"
+            ]
+        ]
+    },
+    {
+        "id": "930c70e396e0398c",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "modbus cal",
+        "func": "var auchCRCHi = [\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40\n      ];\n\n      /* Table of CRC values for low-order byte */\n    var auchCRCLo = [\n        0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06,\n        0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,\n        0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,\n        0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A,\n        0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4,\n        0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,\n        0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3,\n        0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4,\n        0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,\n        0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29,\n        0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED,\n        0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,\n        0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60,\n        0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67,\n        0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,\n        0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68,\n        0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E,\n        0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,\n        0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71,\n        0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92,\n        0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,\n        0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B,\n        0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B,\n        0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,\n        0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42,\n        0x43, 0x83, 0x41, 0x81, 0x80, 0x40\n      ];\n\n//var data=Buffer.from([1,15,0,0,0,10,2,255,0,0,0]);\nvar data=Buffer.from(msg.payload);\nvar nTemp;\nvar wCRCWord = 0xFFFF;\n//data=msg.payload;\nvar len=data.length-2;\nvar crc = [0xFF, 0xFF];\n    var nextByte = 0;\n    var uIndex; /* will index into CRC lookup*/ /* table */\n    /* pass through message buffer */\n    for (var i = 0; i < len && i < data.length; i++) {\n      nextByte = 0xFF & (data[i]);\n      uIndex = crc[0] ^ nextByte; //*puchMsg++; /* calculate the CRC */\n      crc[0] = crc[1] ^ auchCRCHi[uIndex];\n      crc[1] = auchCRCLo[uIndex];\n    }\n\ndata[len]=crc[0];\ndata[len+1]=crc[1];\nmsg.payload= data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 561.0000152587891,
+        "y": 113.99998664855957,
+        "wires": [
+            [
+                "f2d546c2eb364390"
+            ]
+        ]
+    },
+    {
+        "id": "8061d305fc205d65",
+        "type": "inject",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 115,
+        "wires": [
+            [
+                "0b7a129b0248dcf1"
+            ]
+        ]
+    },
+    {
+        "id": "f2d546c2eb364390",
+        "type": "serial request",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "serial": "63957752.49a888",
+        "x": 713,
+        "y": 115,
+        "wires": [
+            [
+                "bcd20a98ec98495f"
+            ]
+        ]
+    },
+    {
+        "id": "340da80d3d452617",
+        "type": "comment",
+        "z": "7cebe1323521596f",
+        "name": "참조메뉴얼",
+        "info": "LS산전 \"사용설명서_XGB Cnet_V1.8.pdf\"\n9-8 페이지\n9.4.2 비트 입력영역에 비트형식의 데이터 읽기(02) ",
+        "x": 180,
+        "y": 75,
+        "wires": []
+    },
+    {
+        "id": "88b033eede885914",
+        "type": "comment",
+        "z": "7cebe1323521596f",
+        "name": "참조유튜브",
+        "info": "https://youtu.be/hlGKl6BQL78",
+        "x": 340,
+        "y": 75,
+        "wires": []
+    },
+    {
+        "id": "a51adc260471b9f0",
+        "type": "http in",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "url": "/on",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 260,
+        "wires": [
+            [
+                "a56db3695addc8b2",
+                "6feaf19209809869"
+            ]
+        ]
+    },
+    {
+        "id": "9d25da4ae153225b",
+        "type": "template",
+        "z": "7cebe1323521596f",
+        "name": "html",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head>\n        <meta name='viewport' content='width=device-width, initial-scale=1.0'/>\n        <meta http-equiv='refresh' content='0; url=http://192.168.0.3:1880/main' method='get'> \n    </head>\n    <body>\n       </body>\n</html",
+        "output": "str",
+        "x": 490,
+        "y": 260,
+        "wires": [
+            [
+                "6c20e754eca0841a"
+            ]
+        ]
+    },
+    {
+        "id": "6c20e754eca0841a",
+        "type": "http response",
+        "z": "7cebe1323521596f",
+        "name": "Go Main Page",
+        "statusCode": "",
+        "headers": {},
+        "x": 642,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a56db3695addc8b2",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "act 처리",
+        "func": "var out = global.get('out') || [0,0,0,0,0,0];\nvar monit = global.get('monit') || '0';\n\nif(msg.payload.act==0) {\n    out[msg.payload.no] = parseInt(msg.payload.value);\n    global.set('out',out);\n}\nelse if(msg.payload.act==1)\n   global.set(\"monit\",msg.payload.value);\n \nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "9d25da4ae153225b",
+                "c9d6f4463fa5adfb"
+            ]
+        ]
+    },
+    {
+        "id": "e19a2993c017b11d",
+        "type": "serial out",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "serial": "63957752.49a888",
+        "x": 770,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3af7565842774599",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "modbus cal",
+        "func": "var auchCRCHi = [\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,\n        0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,\n        0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,\n        0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,\n        0x80, 0x41, 0x00, 0xC1, 0x81, 0x40\n      ];\n\n      /* Table of CRC values for low-order byte */\n    var auchCRCLo = [\n        0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06,\n        0x07, 0xC7, 0x05, 0xC5, 0xC4, 0x04, 0xCC, 0x0C, 0x0D, 0xCD,\n        0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,\n        0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A,\n        0x1E, 0xDE, 0xDF, 0x1F, 0xDD, 0x1D, 0x1C, 0xDC, 0x14, 0xD4,\n        0xD5, 0x15, 0xD7, 0x17, 0x16, 0xD6, 0xD2, 0x12, 0x13, 0xD3,\n        0x11, 0xD1, 0xD0, 0x10, 0xF0, 0x30, 0x31, 0xF1, 0x33, 0xF3,\n        0xF2, 0x32, 0x36, 0xF6, 0xF7, 0x37, 0xF5, 0x35, 0x34, 0xF4,\n        0x3C, 0xFC, 0xFD, 0x3D, 0xFF, 0x3F, 0x3E, 0xFE, 0xFA, 0x3A,\n        0x3B, 0xFB, 0x39, 0xF9, 0xF8, 0x38, 0x28, 0xE8, 0xE9, 0x29,\n        0xEB, 0x2B, 0x2A, 0xEA, 0xEE, 0x2E, 0x2F, 0xEF, 0x2D, 0xED,\n        0xEC, 0x2C, 0xE4, 0x24, 0x25, 0xE5, 0x27, 0xE7, 0xE6, 0x26,\n        0x22, 0xE2, 0xE3, 0x23, 0xE1, 0x21, 0x20, 0xE0, 0xA0, 0x60,\n        0x61, 0xA1, 0x63, 0xA3, 0xA2, 0x62, 0x66, 0xA6, 0xA7, 0x67,\n        0xA5, 0x65, 0x64, 0xA4, 0x6C, 0xAC, 0xAD, 0x6D, 0xAF, 0x6F,\n        0x6E, 0xAE, 0xAA, 0x6A, 0x6B, 0xAB, 0x69, 0xA9, 0xA8, 0x68,\n        0x78, 0xB8, 0xB9, 0x79, 0xBB, 0x7B, 0x7A, 0xBA, 0xBE, 0x7E,\n        0x7F, 0xBF, 0x7D, 0xBD, 0xBC, 0x7C, 0xB4, 0x74, 0x75, 0xB5,\n        0x77, 0xB7, 0xB6, 0x76, 0x72, 0xB2, 0xB3, 0x73, 0xB1, 0x71,\n        0x70, 0xB0, 0x50, 0x90, 0x91, 0x51, 0x93, 0x53, 0x52, 0x92,\n        0x96, 0x56, 0x57, 0x97, 0x55, 0x95, 0x94, 0x54, 0x9C, 0x5C,\n        0x5D, 0x9D, 0x5F, 0x9F, 0x9E, 0x5E, 0x5A, 0x9A, 0x9B, 0x5B,\n        0x99, 0x59, 0x58, 0x98, 0x88, 0x48, 0x49, 0x89, 0x4B, 0x8B,\n        0x8A, 0x4A, 0x4E, 0x8E, 0x8F, 0x4F, 0x8D, 0x4D, 0x4C, 0x8C,\n        0x44, 0x84, 0x85, 0x45, 0x87, 0x47, 0x46, 0x86, 0x82, 0x42,\n        0x43, 0x83, 0x41, 0x81, 0x80, 0x40\n      ];\n\n//var data=Buffer.from([1,15,0,0,0,10,2,255,0,0,0]);\nvar data=Buffer.from(msg.payload);\nvar nTemp;\nvar wCRCWord = 0xFFFF;\n//data=msg.payload;\nvar len=data.length-2;\nvar crc = [0xFF, 0xFF];\n    var nextByte = 0;\n    var uIndex; /* will index into CRC lookup*/ /* table */\n    /* pass through message buffer */\n    for (var i = 0; i < len && i < data.length; i++) {\n      nextByte = 0xFF & (data[i]);\n      uIndex = crc[0] ^ nextByte; //*puchMsg++; /* calculate the CRC */\n      crc[0] = crc[1] ^ auchCRCHi[uIndex];\n      crc[1] = auchCRCLo[uIndex];\n    }\n\ndata[len]=crc[0];\ndata[len+1]=crc[1];\nmsg.payload= data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "e19a2993c017b11d"
+            ]
+        ]
+    },
+    {
+        "id": "c9d6f4463fa5adfb",
+        "type": "function",
+        "z": "7cebe1323521596f",
+        "name": "쓰기",
+        "func": "var out = global.get('out') || [0,0,0,0,0,0];\nvar buf = Buffer.alloc(11);\nbuf=[1,15,0,64,0,10,2,255,0,0,0];\n//buf[7]=i00*1+i01*2+i02*4+i03*8+i04*16+i05*32;\nbuf[7]=out[0]*1+out[1]*2+out[2]*4+out[3]*8+out[4]*16+out[5]*32;\n\nmsg.payload=buf;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 320,
+        "wires": [
+            [
+                "3af7565842774599"
+            ]
+        ]
+    },
+    {
+        "id": "6feaf19209809869",
+        "type": "debug",
+        "z": "7cebe1323521596f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "63957752.49a888",
+        "type": "serial-port",
+        "serialport": "COM6",
+        "serialbaud": "19200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "100",
+        "bin": "bin",
+        "out": "time",
+        "addchar": "",
+        "responsetimeout": "10000"
+    }
+]
