@@ -1,7 +1,7 @@
 # LS PLC MASTER K120s  modbus    
 [김동일교수 유튜브보기](http://i2r.link)
 
-2-27 [LS산전 PLC MASTER K120s modbus 설정 (1)] (https://www.youtube.com/watch?v=0c1rxYEN6wk)   
+2-27 [LS산전 PLC MASTER K120s modbus 설정 (1)](https://youtu.be/0c1rxYEN6wk)   
 -KGL Win에서 modbus tjfwjd
 
 ### 2-27-1 node red program
