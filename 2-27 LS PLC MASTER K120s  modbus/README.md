@@ -6,13 +6,13 @@
 
 2-27-1 [LS PLC Modbus 통신 MSTER K120s node-red 프로그램 (2)](https://youtu.be/hlyX9CX3jfk)       
 - node red에서 modebus 기본 프로토콜 설명     
-- 
+
 2-27-2 [LS PLC MSTER K120s Modbus 입출력제어 node-red 로 제어 (3)](https://youtu.be/-NGgtKyJzkE)        
 - 비트연속 출력으로 plc 입력과 출력제어       
-- 
+
 2-27-3 [LS PLC MSTER K120s Modbus 입출력제어 node-red HTML 웹페이지로 제어](https://youtu.be/wBEPjRFt4_w)    
 - 아두이노에서 html 웹페이지를 만들어 크롬으로 접속하여 plc 입출력제어    
-- 
+
 2-27-4 구글 음성인식을 이용한 PLC제어
 
 ### 2-27-1 node red program
