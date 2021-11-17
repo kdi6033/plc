@@ -3,6 +3,7 @@
 
 2-27 [LS산전 PLC MASTER K120s modbus 설정 (1)](https://youtu.be/0c1rxYEN6wk)     
 -KGL Win에서 modbus 설정     
+
 2-27-1 [LS PLC Modbus 통신 MSTER K120s node-red 프로그램 (2)](https://youtu.be/hlyX9CX3jfk)       
 - node red에서 modebus 기본 프로토콜 설명     
 2-27-2 [LS PLC MSTER K120s Modbus 입출력제어 node-red 로 제어 (3)](https://youtu.be/-NGgtKyJzkE)        
