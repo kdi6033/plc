@@ -1363,7 +1363,115 @@ node red에서 HTML로 plc를 제어한다.
 구글 다이어로그에서 "1번 켜" 하면 plc에서 출력이 나간다.    
 "FirebaseESP8266.h"의 라이브러리 "Firebase ESP8266 Client"는 2.9.0 버젼을 선택한다.
 
-index.js
+### index.js
+```
+// See https://github.com/dialogflow/dialogflow-fulfillment-nodejs
+// for Dialogflow fulfillment library docs, samples, and to report issues
+'use strict';
+ 
+const functions = require('firebase-functions');
+var admin = require("firebase-admin");
+const {WebhookClient} = require('dialogflow-fulfillment');
+const {Card, Suggestion} = require('dialogflow-fulfillment');
+ 
+process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
+
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: "ws://plcorder-ybde-default-rtdb.firebaseio.com"
+});
+
+ 
+exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
+  const agent = new WebhookClient({ request, response });
+  console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+  console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+ 
+  function welcome(agent) {
+    agent.add(`Welcome to my agent!`);
+  }
+ 
+  function fallback(agent) {
+    agent.add(`I didn't understand`);
+    agent.add(`I'm sorry, can you try again?`);
+  }
+
+  // // Uncomment and edit to make your own intent handler
+  // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
+  // // below to get this function to be run when a Dialogflow intent is matched
+  // function yourFunctionHandler(agent) {
+  //   agent.add(`This message is from Dialogflow's Cloud Functions for Firebase editor!`);
+  //   agent.add(new Card({
+  //       title: `Title: this is a card title`,
+  //       imageUrl: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
+  //       text: `This is the body text of a card.  You can even use line\n  breaks and emoji! 💁`,
+  //       buttonText: 'This is a button',
+  //       buttonUrl: 'https://assistant.google.com/'
+  //     })
+  //   );
+  //   agent.add(new Suggestion(`Quick Reply`));
+  //   agent.add(new Suggestion(`Suggestion`));
+  //   agent.setContext({ name: 'weather', lifespan: 2, parameters: { city: 'Rome' }});
+  // }
+
+  // // Uncomment and edit to make your own Google Assistant intent handler
+  // // uncomment `intentMap.set('your intent name here', googleAssistantHandler);`
+  // // below to get this function to be run when a Dialogflow intent is matched
+  // function googleAssistantHandler(agent) {
+  //   let conv = agent.conv(); // Get Actions on Google library conv instance
+  //   conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
+  //   agent.add(conv); // Add Actions on Google library responses to your agent's response
+  // }
+  // // See https://github.com/dialogflow/fulfillment-actions-library-nodejs
+  // // for a complete Dialogflow fulfillment library Actions on Google client library v2 integration sample
+
+  // Run the proper function handler based on the matched Dialogflow intent name
+  function handlePlc(agent) {
+    const number = agent.parameters.number;
+    const on = agent.parameters.on;
+    var state = 0;
+    if(on == '켜') 
+      state = 1;
+    return admin.database().ref('data').set({
+      no:number,
+      on:state
+    });
+  }
+  let intentMap = new Map();
+  intentMap.set('Default Welcome Intent', welcome);
+  intentMap.set('Default Fallback Intent', fallback);
+  intentMap.set('plc', handlePlc);
+  // intentMap.set('your intent name here', yourFunctionHandler);
+  // intentMap.set('your intent name here', googleAssistantHandler);
+  agent.handleRequest(intentMap);
+});
+```
+### package.json
+```
+{
+  "name": "dialogflowFirebaseFulfillment",
+  "description": "This is the default fulfillment for a Dialogflow agents using Cloud Functions for Firebase",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache Version 2.0",
+  "author": "Google Inc.",
+  "engines": {
+    "node": "10"
+  },
+  "scripts": {
+    "start": "firebase serve --only functions:dialogflowFirebaseFulfillment",
+    "deploy": "firebase deploy --only functions:dialogflowFirebaseFulfillment"
+  },
+  "dependencies": {
+    "actions-on-google": "^2.2.0",
+    "firebase-admin": "^9.5.0",
+    "firebase-functions": "^3.1.0",
+    "dialogflow": "^0.6.0",
+    "dialogflow-fulfillment": "^0.5.0"
+  }
+}
+```
+### 아두이노 프로그램 
 ```
 //FirebaseESP8266.h must be included before ESP8266WiFi.h
 #include "FirebaseESP8266.h"
@@ -1373,8 +1481,8 @@ index.js
 
 SoftwareSerial mySerial(D7, D4); // RX, TX
 
-#define FIREBASE_HOST "***.firebaseio.com" //Without http:// or https:// schemes
-#define FIREBASE_AUTH "***"
+#define FIREBASE_HOST "plcorder-ybde-default-rtdb.firebaseio.com" //Without http:// or https:// schemes
+#define FIREBASE_AUTH "ekDKg4vAvmDHrXtTbOTzfLW6bpT8nror3XD4J4gT"
 #define WIFI_SSID "i2r"
 #define WIFI_PASSWORD "00000000"
 
@@ -1473,39 +1581,6 @@ void setup()
 void loop()
 {
 
-}
-
-// 아두이노에서 RS485 출력을 내보낸다.
-void crd16Rtu() {
-  String s;
-  int si,sj,len;
-  char str[24];
-
-  if(outPlc == 1) {  //출력
-    //str[24] =  {0x01,0x0f,0x00,0x00,0x00,0x0a,0x02,0xff,0x00,0x00,0x00};  //비트연속출력 len=9
-    str[0]=0x01; str[1]=0x0f; str[2]=0x00; str[3]=0x00; str[4]=0x00;
-    str[5]=0x0a; str[6]=0x02; str[7]=0xff; str[8]=0x00; str[9]=0x00; str[10]=0x00;
-    len=9;
-    str[7]=Out[0]+Out[1]*2+Out[2]*4+Out[3]*8+Out[4]*16+Out[5]*32;
-    outPlc=0;
-  }
-  else {    //입력
-    //str[24] =  {0x01,0x02,0x00,0x00,0x00,0x08,0x00,0x00}; // 비트 입력영역 읽기 len=6
-    str[0]=0x01; str[1]=0x02; str[2]=0x00; str[3]=0x00; str[4]=0x00;
-    str[5]=0x08; str[6]=0x00; str[7]=0x00; 
-    len=6;
-  }
-
-  inputString = "";
-  uint8_t * data = (uint8_t *) &str[0];
-  si=crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  );
-  sj=si&0xff;
-  str[len]=sj;
-  sj=si>>8;
-  str[len+1]=sj;
-
-  for(int i=0;i<len+2;i++)
-    mySerial.print(str[i]);
 }
 
 void printResult(FirebaseData &data)
@@ -1694,8 +1769,47 @@ void outResult(StreamData &data)
     json->get(jsonObj,"no");
     noPlc=jsonObj.intValue;
     Out[noPlc]=onValue;
+    Serial.println("=============================");
+    Serial.println(Out[0]);
+    Serial.println(Out[1]);
+    Serial.println(Out[2]);
+    Serial.println(Out[3]);
+    outPlc=1;
     crd16Rtu();
   }
+}
+
+// 아두이노에서 RS485 출력을 내보낸다.
+void crd16Rtu() {
+  String s;
+  int si,sj,len;
+  char str[24];
+
+  if(outPlc == 1) {  //출력
+    //str[24] =  {0x00,0x0f,0x00,0x00,0x00,0x0a,0x02,0xff,0x00,0x00,0x00};  //비트연속출력 len=9
+    str[0]=0x01; str[1]=0x0f; str[2]=0x00; str[3]=0x40; str[4]=0x00;
+    str[5]=0x0a; str[6]=0x02; str[7]=0xff; str[8]=0x00; str[9]=0x00; str[10]=0x00;
+    len=9;
+    str[7]=Out[0]+Out[1]*2+Out[2]*4+Out[3]*8;
+    outPlc=0;
+  }
+  else {    //입력
+    //str[24] =  {0x00,0x02,0x00,0x00,0x00,0x08,0x00,0x00}; // 비트 입력영역 읽기 len=6
+    str[0]=0x01; str[1]=0x02; str[2]=0x00; str[3]=0x00; str[4]=0x00;
+    str[5]=0x08; str[6]=0x00; str[7]=0x00; 
+    len=6;
+  }
+
+  inputString = "";
+  uint8_t * data = (uint8_t *) &str[0];
+  si=crc16(data, len, 0x8005, 0xFFFF, 0x0000, true,  true  );
+  sj=si&0xff;
+  str[len]=sj;
+  sj=si>>8;
+  str[len+1]=sj;
+
+  for(int i=0;i<len+2;i++)
+    mySerial.print(str[i]);
 }
 ```
 
