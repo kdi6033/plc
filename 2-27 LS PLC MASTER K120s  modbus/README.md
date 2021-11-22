@@ -1482,7 +1482,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 SoftwareSerial mySerial(D7, D4); // RX, TX
 
 #define FIREBASE_HOST "plcorder-ybde-default-rtdb.firebaseio.com" //Without http:// or https:// schemes
-#define FIREBASE_AUTH "ekDKg4vAvmDHrXtTbOTzfLW6bpT8nror3XD4J4gT"
+#define FIREBASE_AUTH "8nror3XD4J4gT"
 #define WIFI_SSID "i2r"
 #define WIFI_PASSWORD "00000000"
 
